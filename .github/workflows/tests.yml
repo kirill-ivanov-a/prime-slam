@@ -40,15 +40,11 @@ jobs:
 
       - name: Install OpenCV ${{ env.opencv_version }}
         run: |
-          wget https://github.com/opencv/opencv/archive/${{ env.opencv_version }}.zip \
-          -O ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip -q
-          wget https://github.com/opencv/opencv_contrib/archive/${{ env.opencv_version }}.zip \
-          -O ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip -q
-          unzip -q ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
-          -d ${{github.workspace}}/opencv-${{ env.opencv_version }} \
-          unzip -q ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip \
-          -d ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }} \
-          && rm ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
+          wget -O ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip https://github.com/opencv/opencv/archive/${{ env.opencv_version }}.zip -q
+          wget -O ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.opencv_version }}.zip -q
+          unzip -d ${{github.workspace}}/opencv-${{ env.opencv_version }} ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip 
+          unzip -d ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }} ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip
+          rm ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
           ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip
           cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build \
           && cmake .. \
