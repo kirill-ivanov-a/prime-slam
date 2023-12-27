@@ -41,11 +41,9 @@ jobs:
       - name: Install OpenCV ${{ env.opencv_version }}
         run: |
           wget https://github.com/opencv/opencv/archive/${{ env.opencv_version }}.zip \
-          -O opencv-${{ env.opencv_version }}.zip \
-          -P ${{ github.workspace }} -q
+          -O ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip -q
           wget https://github.com/opencv/opencv_contrib/archive/${{ env.opencv_version }}.zip \
-          -O opencv_contrib-${{ env.opencv_version }}.zip \
-          -P ${{ github.workspace }} -q
+          -O ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip -q
           unzip -q ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip -d ${{github.workspace}} \
           unzip -q ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip -d ${{ github.workspace }} \
           && rm ${ {github.workspace }}/opencv-${{ env.opencv_version }}.zip \
