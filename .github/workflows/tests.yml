@@ -88,5 +88,5 @@ jobs:
           cmake --build ${{ env.build_dir }}
 
       - name: Test
-        working-directory: ${{env.build_type}}
-        run: ctest -C -V ${{env.build_type}}
+        working-directory: ${{ github.workspace }}/build/tests
+        run: ctest -C ${{ env.build_type }}
