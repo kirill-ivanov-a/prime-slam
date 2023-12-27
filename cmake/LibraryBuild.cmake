@@ -162,7 +162,6 @@ target_link_libraries(${LIBRARY_NAME}
         g2o::types_sba
         g2o::solver_csparse
         g2o::solver_dense
-        Open3D::Open3D
         ${OpenCV_LIBS}
 )
 
