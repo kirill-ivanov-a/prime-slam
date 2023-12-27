@@ -44,10 +44,12 @@ jobs:
           -O ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip -q
           wget https://github.com/opencv/opencv_contrib/archive/${{ env.opencv_version }}.zip \
           -O ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip -q
-          unzip -q ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip -d ${{github.workspace}} \
-          unzip -q ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip -d ${{ github.workspace }} \
-          && rm ${ {github.workspace }}/opencv-${{ env.opencv_version }}.zip \
-          ${{github.workspace}}/opencv_contrib-${{ env.opencv_version }}.zip
+          unzip -q ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
+          -d ${{github.workspace}}/opencv-${{ env.opencv_version }} \
+          unzip -q ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip \
+          -d ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }} \
+          && rm ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
+          ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip
           cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build
           && cmake  \
           -D CMAKE_BUILD_TYPE=RELEASE \
