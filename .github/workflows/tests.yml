@@ -16,7 +16,7 @@ on:
 env:
   build_dir: "build"
   build_type: "Release"
-  opencv_version: 4.4.0
+  opencv_version: 4.6.0
 
 jobs:
   ubuntu:
@@ -40,14 +40,36 @@ jobs:
 
       - name: Install OpenCV ${{ env.opencv_version }}
         run: |
-          wget https://github.com/opencv/opencv/archive/${{ env.opencv_version }}.zip -P ${{github.workspace}} -q
-          unzip -q ${{github.workspace}}/${{ env.opencv_version }}.zip -d ${{github.workspace}} \
-          && rm ${{github.workspace}}/${{ env.opencv_version }}.zip
+          wget https://github.com/opencv/opencv/archive/${{ env.opencv_version }}.zip -P ${{ github.workspace }} -q
+          wget https://github.com/opencv/opencv_contrib/archive/${{ env.opencv_version }}.zip -P ${{ github.workspace }} -q
+          unzip -q ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip -d ${{github.workspace}} \
+          unzip -q ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip -d ${{ github.workspace }} \
+          && rm ${ {github.workspace }}/opencv-${{ env.opencv_version }}.zip \
+          ${{github.workspace}}/opencv_contrib-${{ env.opencv_version }}.zip
           cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-            -DBUILD_opencv_dnn=OFF -DBUILD_opencv_java_bindings_gen=OFF \
-            -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF
+          && cmake  \
+          -D CMAKE_BUILD_TYPE=RELEASE \
+          -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D INSTALL_PYTHON_EXAMPLES=OFF \
+          -D INSTALL_C_EXAMPLES=OFF \
+          -D OPENCV_ENABLE_NONFREE=ON \
+          -D WITH_OPENCL=OFF \
+          -D WITH_OPENJPEG=OFF \
+          -D WITH_JASPER=OFF \
+          -D WITH_OPENEXR=OFF \
+          -D WITH_V4L=OFF \
+          -D WITH_FFMPEG=OFF \
+          -D WITH_GSTREAMER=OFF \
+          -D BUILD_JAVA=OFF \
+          -D WITH_CUDA=OFF \
+          -D BUILD_TESTS=OFF \
+          -D WITH_CUDNN=OFF \
+          -D OPENCV_DNN_CUDA=OFF \
+          -D OPENCV_EXTRA_MODULES_PATH=${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}/modules \
+          -D HAVE_opencv_python3=OFF \
+          -D BUILD_EXAMPLES=OFF .. \
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           cmake --build . -j2
           sudo make install
 
