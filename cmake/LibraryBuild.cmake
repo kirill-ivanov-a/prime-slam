@@ -135,7 +135,7 @@ FetchContent_Declare(fmt
 )
 FetchContent_MakeAvailable(fmt)
 
-if (${LIBRARY_NAME}_BUILD_TESTS)
+if (${PROJECT_NAME_UPPERCASE}_BUILD_TESTS)
     message(STATUS "FetchContent: googletest")
     FetchContent_Declare(
             googletest
@@ -165,7 +165,7 @@ target_link_libraries(${LIBRARY_NAME}
         ${OpenCV_LIBS}
 )
 
-if (${LIBRARY_NAME}_BUILD_VISUALIZER)
+if (${PROJECT_NAME_UPPERCASE}_BUILD_VISUALIZER)
     find_package(Open3D)
     target_link_libraries(${LIBRARY_NAME}
             PUBLIC

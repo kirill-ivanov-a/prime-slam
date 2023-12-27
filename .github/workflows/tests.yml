@@ -84,7 +84,11 @@ jobs:
 
       - name: Build library
         run: |
-          cmake -B ${{ env.build_dir }} -DPRIME_SLAM_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ env.build_type }}
+          cmake -B ${{ env.build_dir }} \
+          -DPRIME_SLAM_BUILD_TESTS=ON \
+          -DCMAKE_BUILD_TYPE=${{ env.build_type }} \
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           cmake --build ${{ env.build_dir }}
 
       - name: Test
