@@ -50,7 +50,7 @@ jobs:
           -d ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }} \
           && rm ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
           ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip
-          cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build
+          cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build \
           && cmake  \
           -D CMAKE_BUILD_TYPE=RELEASE \
           -D CMAKE_INSTALL_PREFIX=/usr/local \
