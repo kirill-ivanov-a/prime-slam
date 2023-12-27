@@ -51,7 +51,7 @@ jobs:
           && rm ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
           ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip
           cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build \
-          && cmake  \
+          && cmake .. \
           -D CMAKE_BUILD_TYPE=RELEASE \
           -D CMAKE_INSTALL_PREFIX=/usr/local \
           -D INSTALL_PYTHON_EXAMPLES=OFF \
@@ -71,7 +71,7 @@ jobs:
           -D OPENCV_DNN_CUDA=OFF \
           -D OPENCV_EXTRA_MODULES_PATH=${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}/modules \
           -D HAVE_opencv_python3=OFF \
-          -D BUILD_EXAMPLES=OFF .. \
+          -D BUILD_EXAMPLES=OFF \
           -DCMAKE_C_COMPILER_LAUNCHER=ccache \
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           cmake --build . -j2
