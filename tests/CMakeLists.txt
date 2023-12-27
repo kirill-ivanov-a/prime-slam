@@ -1,0 +1,15 @@
+enable_testing()
+
+include(${PROJECT_SOURCE_DIR}/cmake/TestTarget.cmake)
+set(TEST_DATA_DIR ${PROJECT_SOURCE_DIR}/tests/data)
+
+prime_slam_test_target(test_keyframe_selection)
+prime_slam_test_target(test_observations_creation)
+prime_slam_test_target(test_point_projector)
+prime_slam_test_target(test_point_pose_estimation DATA_NEEDED)
+prime_slam_test_target(test_prime_slam DATA_NEEDED)
+prime_slam_test_target(test_frontend DATA_NEEDED)
+prime_slam_test_target(test_point_backend_g2o DATA_NEEDED)
+prime_slam_test_target(test_dataset DATA_NEEDED)
+prime_slam_test_target(test_mapping)
+prime_slam_test_target(test_tracking DATA_NEEDED)
