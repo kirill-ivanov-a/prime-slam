@@ -1,0 +1,67 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scr/**'
+      - 'include/**'
+      - 'tests/**'
+      - '.gitignore'
+      - 'CMakeLists.txt'
+  pull_request:
+    branches: [ main ]
+
+env:
+  build_dir: "build"
+  build_type: "Release"
+  opencv_version: 4.4.0
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [ g++, clang++ ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+
+      - name: Install apt dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y clang libgtest-dev libeigen3-dev libboost-dev libfmt-dev
+
+      - name: Install OpenCV ${{ env.opencv_version }}
+        run: |
+          wget https://github.com/opencv/opencv/archive/${{ env.opencv_version }}.zip -P ${{github.workspace}} -q
+          unzip -q ${{github.workspace}}/${{ env.opencv_version }}.zip -d ${{github.workspace}} \
+          && rm ${{github.workspace}}/${{ env.opencv_version }}.zip
+          cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DBUILD_opencv_dnn=OFF -DBUILD_opencv_java_bindings_gen=OFF \
+            -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF
+          cmake --build . -j2
+          sudo make install
+
+      - name: Install g2o
+        run: |
+          git clone https://github.com/RainerKuemmerle/g2o.git ${{github.workspace}}/g2o
+          cd ${{github.workspace}}/g2o && mkdir build && cd build
+          cmake ../ -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          cmake --build . -j2
+          sudo make install
+
+      - name: Build library
+        run: |
+          cmake -B ${{ env.build_dir }} -DPRIME_SLAM_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ env.build_type }}
+          cmake --build ${{ env.build_dir }}
+
+      - name: Test
+        working-directory: ${{env.build_type}}
+        run: ctest -C -V ${{env.build_type}}

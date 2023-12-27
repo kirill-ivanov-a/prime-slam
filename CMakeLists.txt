@@ -17,10 +17,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-option(${LIBRARY_NAME}_BUILD_TESTS "Build ${LIBRARY_NAME} tests" ON)
-option(${LIBRARY_NAME}_BUILD_EXAMPLES "Build ${LIBRARY_NAME} examples" ON)
+option(${LIBRARY_NAME}_BUILD_TESTS "Build ${LIBRARY_NAME} tests" OFF)
+option(${LIBRARY_NAME}_BUILD_EXAMPLES "Build ${LIBRARY_NAME} examples" OFF)
 option(${LIBRARY_NAME}_INSTALL "Generate target for installing ${LIBRARY_NAME}" ${PROJECT_IS_TOP_LEVEL})
 option(${LIBRARY_NAME}_HIDE_INTERNAL_SYMBOLS "Build ${LIBRARY_NAME} with internal symbols hidden in shared libraries.")
+option(${LIBRARY_NAME}_BUILD_VISUALIZER "Build ${LIBRARY_NAME} with visualizer." OFF)
 option(BUILD_SHARED_LIBS "Build ${LIBRARY_NAME} as a shared library." OFF)
 
 message(STATUS "BUILD_SHARED_LIBS: ${BUILD_SHARED_LIBS}")
