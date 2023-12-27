@@ -33,7 +33,8 @@ jobs:
       - name: Install apt dependencies
         run: |
           sudo apt update
-          sudo apt install -y clang libgtest-dev libeigen3-dev libboost-dev libfmt-dev
+          sudo apt install -y  \
+          clang libgtest-dev libeigen3-dev libboost-dev libboost-program-options-dev libfmt-dev 
 
       - name: Install OpenCV ${{ env.opencv_version }}
         run: |
