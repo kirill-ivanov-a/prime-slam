@@ -34,7 +34,9 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y  \
-          clang libgtest-dev libeigen3-dev libboost-dev libboost-program-options-dev libfmt-dev 
+          clang libgtest-dev libeigen3-dev libboost-dev \
+          libboost-program-options-dev libfmt-dev freeglut3 freeglut3-dev \
+          libglu1-mesa libglu1-mesa-dev
 
       - name: Install OpenCV ${{ env.opencv_version }}
         run: |
