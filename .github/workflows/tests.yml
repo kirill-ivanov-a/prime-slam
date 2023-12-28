@@ -35,7 +35,8 @@ jobs:
           sudo apt update
           sudo apt install -y  \
           libeigen3-dev libboost-dev \
-          libboost-program-options-dev libfmt-dev libsuitesparse-dev
+          libboost-program-options-dev libfmt-dev freeglut3 freeglut3-dev \
+          libglu1-mesa libglu1-mesa-dev libsuitesparse-dev
 
       - name: Install OpenCV ${{ env.opencv_version }}
         run: |
