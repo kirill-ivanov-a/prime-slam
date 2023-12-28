@@ -124,10 +124,6 @@ find_package(g2o)
 
 include(FetchContent)
 
-message(STATUS "FetchContent: g2o")
-
-set(G2O_BUILD_EXAMPLES OFF)
-
 message(STATUS "FetchContent: fmt")
 FetchContent_Declare(fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
