@@ -93,4 +93,4 @@ jobs:
 
       - name: Test
         working-directory: ${{ github.workspace }}/build/tests
-        run: ctest -C ${{ env.build_type }}
+        run: ctest -V -C ${{ env.build_type }}
