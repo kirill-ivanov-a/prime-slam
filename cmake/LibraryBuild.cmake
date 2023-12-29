@@ -120,7 +120,6 @@ target_include_directories(
 find_package(Eigen3 3.3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS program_options)
 find_package(OpenCV 4.6 PATHS ${OPENCV_INSTALL_DIR} REQUIRED)
-find_package(g2o REQUIRED)
 
 include(FetchContent)
 
@@ -130,6 +129,13 @@ FetchContent_Declare(fmt
         GIT_TAG 10.1.1
 )
 FetchContent_MakeAvailable(fmt)
+
+message(STATUS "FetchContent: g2o")
+FetchContent_Declare(g2o
+        GIT_REPOSITORY https://github.com/RainerKuemmerle/g2o
+        GIT_TAG 20230806_git
+)
+FetchContent_MakeAvailable(g2o)
 
 if (${PROJECT_NAME_UPPERCASE}_BUILD_TESTS)
     message(STATUS "FetchContent: googletest")
@@ -153,11 +159,11 @@ target_link_libraries(${LIBRARY_NAME}
         fmt::fmt
         Eigen3::Eigen
         Boost::program_options
-        g2o::core
-        g2o::stuff
-        g2o::types_sba
-        g2o::solver_csparse
-        g2o::solver_dense
+        g2o_core
+        g2o_stuff
+        g2o_types_sba
+        g2o_solver_csparse
+        g2o_solver_dense
         ${OpenCV_LIBS}
 )
 
