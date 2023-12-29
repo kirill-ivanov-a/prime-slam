@@ -120,7 +120,7 @@ target_include_directories(
 find_package(Eigen3 3.3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS program_options)
 find_package(OpenCV 4.6 PATHS ${OPENCV_INSTALL_DIR} REQUIRED)
-find_package(g2o)
+find_package(g2o REQUIRED)
 
 include(FetchContent)
 
