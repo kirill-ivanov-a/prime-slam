@@ -86,9 +86,10 @@ int main(int argc, char *argv[]) {
       ++progress_bar;
       slam.ProcessSensorData(std::move(data));
     }
-
+#ifdef PRIME_SLAM_BUILD_VISUALIZER
     auto &&map = slam.GetMap();
     prime_slam::visualization::VisualizeMap(map);
+#endif
   }
 
   return 0;

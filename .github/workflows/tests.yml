@@ -1,0 +1,96 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scr/**'
+      - 'include/**'
+      - 'tests/**'
+      - '.gitignore'
+      - 'CMakeLists.txt'
+  pull_request:
+    branches: [ main ]
+
+env:
+  build_dir: "build"
+  build_type: "Release"
+  opencv_version: 4.6.0
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [ g++, clang++ ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+
+      - name: Install apt dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y  \
+          libeigen3-dev libboost-dev \
+          libboost-program-options-dev qtdeclarative5-dev qt5-qmake libqglviewer-dev-qt5 libsuitesparse-dev
+          sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen
+
+      - name: Install OpenCV ${{ env.opencv_version }}
+        run: |
+          wget -O ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip https://github.com/opencv/opencv/archive/${{ env.opencv_version }}.zip -q
+          wget -O ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.opencv_version }}.zip -q
+          unzip -q -d ${{github.workspace}} ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip 
+          unzip -q -d ${{ github.workspace }} ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip
+          rm ${{ github.workspace }}/opencv-${{ env.opencv_version }}.zip \
+          ${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}.zip
+          cd ${{github.workspace}}/opencv-${{ env.opencv_version }} && mkdir build && cd build \
+          && cmake .. \
+          -D CMAKE_BUILD_TYPE=RELEASE \
+          -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D INSTALL_PYTHON_EXAMPLES=OFF \
+          -D INSTALL_C_EXAMPLES=OFF \
+          -D OPENCV_ENABLE_NONFREE=ON \
+          -D WITH_OPENCL=OFF \
+          -D WITH_OPENJPEG=OFF \
+          -D WITH_JASPER=OFF \
+          -D WITH_OPENEXR=OFF \
+          -D WITH_V4L=OFF \
+          -D WITH_FFMPEG=OFF \
+          -D WITH_GSTREAMER=OFF \
+          -D BUILD_JAVA=OFF \
+          -D WITH_CUDA=OFF \
+          -D BUILD_TESTS=OFF \
+          -D WITH_CUDNN=OFF \
+          -D OPENCV_DNN_CUDA=OFF \
+          -D OPENCV_EXTRA_MODULES_PATH=${{ github.workspace }}/opencv_contrib-${{ env.opencv_version }}/modules \
+          -D HAVE_opencv_python3=OFF \
+          -D BUILD_EXAMPLES=OFF \
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          cmake --build . -j2
+          sudo make install
+
+      - name: Install g2o
+        run: |
+          git clone https://github.com/RainerKuemmerle/g2o.git ${{github.workspace}}/g2o
+          cd ${{github.workspace}}/g2o && mkdir build && cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DG2O_BUILD_EXAMPLES=OFF \
+            -DG2O_USE_OPENGL=OFF -DG2O_BUILD_APPS=OFF -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          cmake --build . -j2
+          sudo make install
+
+      - name: Build library
+        run: |
+          cmake -B ${{ env.build_dir }} \
+          -DPRIME_SLAM_BUILD_TESTS=ON \
+          -DCMAKE_BUILD_TYPE=${{ env.build_type }} \
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          cmake --build ${{ env.build_dir }}
+
+      - name: Test
+        working-directory: ${{ github.workspace }}/build/tests
+        run: ctest -V -C ${{ env.build_type }}

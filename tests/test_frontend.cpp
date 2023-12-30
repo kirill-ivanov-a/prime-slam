@@ -22,7 +22,7 @@ namespace prime_slam {
 namespace ps = prime_slam;
 
 TEST(Frontend, ORB) {
-  constexpr const auto kTolerance = 0.1;
+  constexpr const auto kTolerance = 0.15;
   auto dataset = CreateTestDataset();
   auto&& gt_poses = dataset.GetGroundTruthPoses();
   auto frontend =

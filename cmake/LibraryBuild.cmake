@@ -120,20 +120,9 @@ target_include_directories(
 find_package(Eigen3 3.3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS program_options)
 find_package(OpenCV 4.6 PATHS ${OPENCV_INSTALL_DIR} REQUIRED)
-find_package(Open3D)
-find_package(g2o)
+find_package(g2o REQUIRED)
 
 include(FetchContent)
-
-message(STATUS "FetchContent: g2o")
-
-set(G2O_BUILD_EXAMPLES OFF)
-
-#FetchContent_Declare(g2o
-#        GIT_REPOSITORY https://github.com/RainerKuemmerle/g2o.git
-#        GIT_TAG 20230806_git
-#)
-#FetchContent_MakeAvailable(g2o)
 
 message(STATUS "FetchContent: fmt")
 FetchContent_Declare(fmt
@@ -142,7 +131,7 @@ FetchContent_Declare(fmt
 )
 FetchContent_MakeAvailable(fmt)
 
-if (${LIBRARY_NAME}_BUILD_TESTS)
+if (${PROJECT_NAME_UPPERCASE}_BUILD_TESTS)
     message(STATUS "FetchContent: googletest")
     FetchContent_Declare(
             googletest
@@ -151,6 +140,13 @@ if (${LIBRARY_NAME}_BUILD_TESTS)
     )
     FetchContent_MakeAvailable(googletest)
 endif ()
+
+target_include_directories(${LIBRARY_NAME}
+        PUBLIC
+        ${EIGEN3_INCLUDE_DIR}
+        PRIVATE
+        ${Boost_INCLUDE_DIRS}
+)
 
 target_link_libraries(${LIBRARY_NAME}
         PUBLIC
@@ -162,9 +158,20 @@ target_link_libraries(${LIBRARY_NAME}
         g2o::types_sba
         g2o::solver_csparse
         g2o::solver_dense
-        Open3D::Open3D
         ${OpenCV_LIBS}
 )
+
+if (${PROJECT_NAME_UPPERCASE}_BUILD_VISUALIZER)
+    find_package(Open3D)
+    target_link_libraries(${LIBRARY_NAME}
+            PUBLIC
+            Open3D::Open3D
+    )
+    target_compile_definitions(
+            ${LIBRARY_NAME} PUBLIC
+            ${PROJECT_NAME_UPPERCASE}_BUILD_VISUALIZER
+    )
+endif ()
 
 # Targets:
 install(

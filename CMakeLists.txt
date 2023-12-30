@@ -17,10 +17,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-option(${LIBRARY_NAME}_BUILD_TESTS "Build ${LIBRARY_NAME} tests" ON)
-option(${LIBRARY_NAME}_BUILD_EXAMPLES "Build ${LIBRARY_NAME} examples" ON)
-option(${LIBRARY_NAME}_INSTALL "Generate target for installing ${LIBRARY_NAME}" ${PROJECT_IS_TOP_LEVEL})
-option(${LIBRARY_NAME}_HIDE_INTERNAL_SYMBOLS "Build ${LIBRARY_NAME} with internal symbols hidden in shared libraries.")
+option(${PROJECT_NAME_UPPERCASE}_BUILD_TESTS "Build ${LIBRARY_NAME} tests" OFF)
+option(${PROJECT_NAME_UPPERCASE}_BUILD_EXAMPLES "Build ${LIBRARY_NAME} examples" OFF)
+option(${PROJECT_NAME_UPPERCASE}_INSTALL "Generate target for installing ${LIBRARY_NAME}" ${PROJECT_IS_TOP_LEVEL})
+option(${PROJECT_NAME_UPPERCASE}_HIDE_INTERNAL_SYMBOLS "Build ${LIBRARY_NAME} with internal symbols hidden in shared libraries.")
+option(${PROJECT_NAME_UPPERCASE}_BUILD_VISUALIZER "Build ${LIBRARY_NAME} with visualizer." OFF)
 option(BUILD_SHARED_LIBS "Build ${LIBRARY_NAME} as a shared library." OFF)
 
 message(STATUS "BUILD_SHARED_LIBS: ${BUILD_SHARED_LIBS}")
@@ -28,13 +29,13 @@ message(STATUS "BUILD_SHARED_LIBS: ${BUILD_SHARED_LIBS}")
 include(${PROJECT_SOURCE_DIR}/cmake/SetEnv.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/LibraryBuild.cmake)
 
-if (${LIBRARY_NAME}_BUILD_TESTS)
+if (${PROJECT_NAME_UPPERCASE}_BUILD_TESTS)
     add_subdirectory(
             ${PROJECT_SOURCE_DIR}/tests
     )
 endif ()
 
-if (${LIBRARY_NAME}_BUILD_EXAMPLES)
+if (${PROJECT_NAME_UPPERCASE}_BUILD_EXAMPLES)
 
 endif ()
 add_subdirectory(

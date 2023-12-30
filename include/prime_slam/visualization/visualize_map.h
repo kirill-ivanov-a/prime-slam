@@ -14,7 +14,9 @@
 
 #pragma once
 
+#ifdef PRIME_SLAM_BUILD_VISUALIZER
 #include <open3d/Open3D.h>
+#endif
 
 #include <Eigen/Core>
 #include <memory>
@@ -24,6 +26,7 @@
 
 namespace prime_slam::visualization {
 
+#ifdef PRIME_SLAM_BUILD_VISUALIZER
 /**
  * @brief Visualizes landmarks of map
  * @tparam MapImpl Concrete map type
@@ -61,5 +64,6 @@ inline void VisualizeMap(const MapImpl& map) {
           landmark_positions));
   open3d::visualization::DrawGeometries(geometries);
 }
+#endif
 
 }  // namespace prime_slam::visualization
