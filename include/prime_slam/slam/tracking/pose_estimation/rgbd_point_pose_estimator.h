@@ -60,7 +60,7 @@ class RGBDPoseEstimator<observation::PointObservationTag> {
    */
   RGBDPoseEstimator(double reprojection_threshold = 20,
                     int iterations_number = 4,
-                    int optimizer_iterations_number = 10,
+                    int optimizer_iterations_number = 20,
                     int edges_min_number = 20);
 
   /**
