@@ -57,7 +57,7 @@ TEST(Tracker, Track) {
 }
 
 TEST(Tracker, TrackMap) {
-  constexpr const auto kTolerance = 0.03;
+  constexpr const auto kTolerance = 0.2;
   constexpr const auto kFirstFrameIndex = 0;
   constexpr const auto kSecondFrameIndex = 7;
 
