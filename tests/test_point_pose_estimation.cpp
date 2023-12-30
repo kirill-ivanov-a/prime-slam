@@ -73,8 +73,6 @@ TEST(PointPoseEstimation, CorrectEstimation) {
       estimated_pose, gt_first_to_second_relative_pose);
   auto absolute_translation_error = metrics::AbsoluteTranslationError(
       estimated_pose, gt_first_to_second_relative_pose);
-  std::cout << gt_first_to_second_relative_pose.matrix() << '\n';
-  std::cout << estimated_pose.matrix() << '\n';
   EXPECT_NEAR(angular_rotation_error, 0.0, kErrorTolerance);
   EXPECT_NEAR(angular_translation_error, 0.0, kErrorTolerance);
   EXPECT_NEAR(absolute_translation_error, 0.0, kErrorTolerance);
