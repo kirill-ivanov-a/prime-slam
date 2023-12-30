@@ -77,7 +77,7 @@ jobs:
         run: |
           git clone https://github.com/RainerKuemmerle/g2o.git ${{github.workspace}}/g2o
           cd ${{github.workspace}}/g2o && mkdir build && cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DG2O_BUILD_EXAMPLES=OFF \
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DG2O_BUILD_EXAMPLES=OFF \
             -DG2O_USE_OPENGL=OFF -DG2O_BUILD_APPS=OFF -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           cmake --build . -j2
           sudo make install
