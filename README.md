@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/kirill-ivanov-a/prime-slam/main/assets/logo.png">
+  <img src="https://github.com/kirill-ivanov-a/prime-slam/blob/main/assets/logo.png?raw=true">
 </div>
 
 # prime-slam
