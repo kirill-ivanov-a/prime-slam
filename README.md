@@ -7,6 +7,7 @@
 [![clang-format](https://github.com/kirill-ivanov-a/prime-slam/actions/workflows/clang_format.yml/badge.svg?branch=main)](https://github.com/kirill-ivanov-a/prime-slam/actions/workflows/clang_format.yml)
 ![language](https://img.shields.io/badge/language-C++20-_)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 Prime SLAM is a Simultaneous Localization and Mapping (SLAM) system with flexible module configuration.
 The idea to create this system arose after using many other SLAM systems that do not provide an easy way to configure,
 for example, using a different type of landmarks is difficult. Most of the code is written using templates and concepts,
