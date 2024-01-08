@@ -184,11 +184,13 @@ install(
 )
 
 # Headers:
-foreach (file ${LIBRARY_HEADER_FILES})
-    get_filename_component(dir ${file} DIRECTORY)
-    install(FILES ${file} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${LIBRARY_FOLDER}/${dir})
-endforeach ()
-
+# Iterate through the header files and create an install command for each
+foreach(file ${LIBRARY_HEADER_FILES})
+    # Get the relative path of the header file
+    file(RELATIVE_PATH RELATIVE_FILE_PATH "${PROJECT_SOURCE_DIR}" "${file}")
+    get_filename_component(RELATIVE_FILE_DIRECTORY ${RELATIVE_FILE_PATH} DIRECTORY )
+    install(FILES "${file}" DESTINATION "${RELATIVE_FILE_DIRECTORY}")
+endforeach()
 
 # Headers:
 install(
